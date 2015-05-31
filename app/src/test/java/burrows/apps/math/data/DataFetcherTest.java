@@ -4,16 +4,20 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import burrows.apps.math.BuildConfig;
 import burrows.apps.mathapp.json.EquationDataJSONParser;
 import burrows.apps.mathapp.json.VersionJSONParser;
 import burrows.apps.mathapp.type.Equation;
@@ -28,11 +32,15 @@ import burrows.apps.mathapp.type.Variable;
 //        VersionJSONParser.class})
 
 @RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 18)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest({DataFetcher.class,
         EquationDataJSONParser.class,
         VersionJSONParser.class})
 public class DataFetcherTest {
+
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
     /**
      * Constants

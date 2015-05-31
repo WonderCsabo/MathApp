@@ -7,12 +7,15 @@ import junit.framework.Assert;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -21,6 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import burrows.apps.math.BuildConfig;
 
 /**
  * Unit test for the UrlFetcher class
@@ -34,14 +39,17 @@ import java.net.URL;
 //        Log.class})
 
 @RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 18)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest({UrlFetcher.class,
         URL.class,
         InputStreamReader.class,
         BufferedReader.class,
-        BufferedInputStream.class,
-        Log.class})
+        BufferedInputStream.class})
 public class UrlFetcherTest {
+
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
     /**
      * Constants
@@ -64,7 +72,7 @@ public class UrlFetcherTest {
 
     @Before
     public void setup() {
-        PowerMock.mockStatic(Log.class);
+        // PowerMock.mockStatic(Log.class);
 
         this.mockUrl = PowerMock.createMock(URL.class);
         this.mockStreamReader = EasyMock.createMock(InputStreamReader.class);
@@ -214,9 +222,9 @@ public class UrlFetcherTest {
      * @param exception Exception that will be thrown
      */
     private void mockLog(final String message, final Exception exception) {
-        EasyMock.expect(Log.d(UrlFetcher.class.getSimpleName(),
-                message,
-                exception)).andReturn(1);
+//        EasyMock.expect(Log.d(UrlFetcher.class.getSimpleName(),
+//                message,
+//                exception)).andReturn(1);
     }
 
     /**
